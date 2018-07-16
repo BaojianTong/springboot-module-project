@@ -1,0 +1,162 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.core</groupId>
+  <artifactId>core-parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  
+  	<modules>
+		<module>core-framework</module>
+		<module>service-user</module>
+		<module>service-test</module>
+		<module>springboot-rest</module>
+	</modules>
+  
+  	<name>${project.artifactId}</name>
+    <description>The parent project of framework</description>
+    
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.1.RELEASE</version>
+        <relativePath/>
+    </parent>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <skip_maven_deploy>false</skip_maven_deploy>
+ 
+        <!-- 在properties中统一控制依赖包的版本，更清晰-->
+        <dubbo.version>2.4.10</dubbo.version>
+        <zkclient.version>0.10</zkclient.version>
+        <zookeeper.version>3.3.4</zookeeper.version>
+        <mybatis-spring-boot-starter.version>1.3.1</mybatis-spring-boot-starter.version>
+        <fastjson.version>1.1.41</fastjson.version>
+        <ytx.version>20180714</ytx.version>
+    </properties>
+    
+    <repositories>
+        <repository>
+            <id>central.maven.com</id>
+            <name>mapbar central mirror.</name>
+            <url>http://116.62.184.129:8081/nexus/content/repositories/central/</url>
+        </repository>
+        <repository>
+            <id>3rd.mapbar.com</id>
+            <name>mapbar thirdparty central mirror.</name>
+            <url>http://116.62.184.129:8081/nexus/content/repositories/thirdparty/</url>
+        </repository>
+        <repository>
+            <id>public.mapbar.com</id>
+            <name>mapbar tech API maven mirror.</name>
+            <url>http://116.62.184.129:8081/nexus/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>releases.mapbar.com</id>
+            <name>mapbar thirdparty central mirror.</name>
+            <url>http://116.62.184.129:8081/nexus/content/repositories/releases/</url>
+        </repository>
+    </repositories>
+  
+  	<!--dependencyManagement用于管理依赖版本号
+  		父模块pom中使用dependencyManagement来管理依赖版本号，
+  		子模块pom中不需要再写版本号，exclusion也不需要
+  	-->
+    <dependencyManagement>
+        <dependencies>          
+ 
+            <!-- dubbo -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>${dubbo.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            
+            <!-- zookeeper -->
+	        <dependency>
+	            <groupId>org.apache.zookeeper</groupId>
+	            <artifactId>zookeeper</artifactId>
+	            <version>${zookeeper.version}</version>
+	            <exclusions>
+	                <exclusion>
+	                    <artifactId>jmxtools</artifactId>
+	                    <groupId>com.sun.jdmk</groupId>
+	                </exclusion>
+	                <exclusion>
+	                    <artifactId>jmxri</artifactId>
+	                    <groupId>com.sun.jmx</groupId>
+	                </exclusion>
+	                <exclusion>
+	                    <artifactId>jms</artifactId>
+	                    <groupId>javax.jms</groupId>
+	                </exclusion>
+	            </exclusions>
+	        </dependency>
+	        <dependency>
+	            <groupId>com.101tec</groupId>
+	            <artifactId>zkclient</artifactId>
+	            <version>${zkclient.version}</version>
+	        </dependency>
+            
+            <!-- mybatis -->
+            <dependency>
+	            <groupId>org.mybatis.spring.boot</groupId>
+	            <artifactId>mybatis-spring-boot-starter</artifactId>
+	            <version>${mybatis-spring-boot-starter.version}</version>
+	        </dependency>
+            
+            <!-- fastjson -->
+            <dependency>
+	            <groupId>com.alibaba</groupId>
+	            <artifactId>fastjson</artifactId>
+	            <version>${fastjson.version}</version>
+	        </dependency>
+            
+            
+            <!-- 第三方jar包  start -->
+            
+            <dependency>
+	            <groupId>jzsms</groupId> 
+	            <artifactId>ytx</artifactId>
+	            <version>${ytx.version}</version>
+	        </dependency>
+            
+            <!-- 第三方jar包   end -->
+            
+        </dependencies>
+    </dependencyManagement>
+    
+    <distributionManagement>
+        <repository>
+            <id>Releases</id>
+            <url>http://116.62.184.129:8081/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>Snapshots</id>
+            <url>http://116.62.184.129:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+    
+    <!--
+	<server>
+        <id>nexus-releases</id>
+        <username>admin</username>
+        <password>admin123</password>
+    </server>
+
+    <server>
+        <id>nexus-snapshots</id>
+        <username>admin</username>
+        <password>admin123</password>
+    </server>
+    -->
+  	
+</project>
